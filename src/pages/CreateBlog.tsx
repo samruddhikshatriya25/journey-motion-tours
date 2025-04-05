@@ -12,11 +12,26 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Plus, Save, Upload } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+
+const travellerTypes = [
+  { id: "solo", label: "Solo Traveller" },
+  { id: "couple", label: "Couple" },
+  { id: "family", label: "Family with Kids" },
+  { id: "friends", label: "Friends Group" },
+  { id: "backpacker", label: "Backpacker" },
+  { id: "luxury", label: "Luxury Traveller" },
+  { id: "adventure", label: "Adventure Seeker" },
+  { id: "cultural", label: "Cultural Explorer" },
+  { id: "foodie", label: "Foodie" },
+  { id: "photographer", label: "Photography Enthusiast" },
+];
 
 const CreateBlog = () => {
   const [activeTab, setActiveTab] = useState("basic-info");
   const [attractions, setAttractions] = useState([{ name: "", description: "" }]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedTravellerTypes, setSelectedTravellerTypes] = useState<string[]>([]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -51,6 +66,14 @@ const CreateBlog = () => {
     setAttractions(updatedAttractions);
   };
 
+  const handleTravellerTypeChange = (id: string, checked: boolean) => {
+    if (checked) {
+      setSelectedTravellerTypes(prev => [...prev, id]);
+    } else {
+      setSelectedTravellerTypes(prev => prev.filter(type => type !== id));
+    }
+  };
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -76,11 +99,12 @@ const CreateBlog = () => {
                 onValueChange={setActiveTab}
                 className="w-full"
               >
-                <TabsList className="grid grid-cols-5 mb-8">
+                <TabsList className="grid grid-cols-6 mb-8">
                   <TabsTrigger value="basic-info">Basic Info</TabsTrigger>
                   <TabsTrigger value="attractions">Attractions</TabsTrigger>
                   <TabsTrigger value="food-dining">Food & Dining</TabsTrigger>
                   <TabsTrigger value="travel-tips">Travel Tips</TabsTrigger>
+                  <TabsTrigger value="traveller-types">Traveller Types</TabsTrigger>
                   <TabsTrigger value="photos">Photos</TabsTrigger>
                 </TabsList>
                 
@@ -235,6 +259,38 @@ const CreateBlog = () => {
                     </div>
                     
                     <Button className="w-full sm:w-auto">
+                      Save & Continue
+                    </Button>
+                  </div>
+                </TabsContent>
+
+                {/* Traveller Types Tab */}
+                <TabsContent value="traveller-types">
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-semibold">Who is this destination best for?</h3>
+                    <p className="text-muted-foreground mb-4">Select all traveller types that would enjoy this destination:</p>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {travellerTypes.map((type) => (
+                        <div key={type.id} className="flex items-start space-x-2">
+                          <Checkbox 
+                            id={`type-${type.id}`} 
+                            checked={selectedTravellerTypes.includes(type.id)}
+                            onCheckedChange={(checked) => 
+                              handleTravellerTypeChange(type.id, checked === true)
+                            }
+                          />
+                          <Label 
+                            htmlFor={`type-${type.id}`}
+                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                          >
+                            {type.label}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <Button className="w-full sm:w-auto mt-6">
                       Save & Continue
                     </Button>
                   </div>
