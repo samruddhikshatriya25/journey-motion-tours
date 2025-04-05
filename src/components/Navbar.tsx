@@ -1,24 +1,41 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { fadeDown } from "@/utils/motion";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Search, Menu, Compass, User, LogIn } from "lucide-react";
+import { Search, Menu, Compass, User, LogIn, LogOut, CreditCard, DollarSign } from "lucide-react";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
+    const checkLoginStatus = () => {
+      const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+      setIsLoggedIn(loggedIn);
+    };
+
     window.addEventListener("scroll", handleScroll);
+    checkLoginStatus();
+    
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    setIsLoggedIn(false);
+    toast.success("You've been logged out successfully!");
+    navigate("/");
+  };
 
   return (
     <header
@@ -35,7 +52,7 @@ const Navbar = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               className={`text-2xl font-bold ${
-                isScrolled || location.pathname !== "/" ? "text-primary" : "text-white"
+                isScrolled || location.pathname !== "/" ? "text-travel-teal" : "text-white"
               }`}
             >
               Wonderlust Canvas
@@ -69,11 +86,43 @@ const Navbar = () => {
               isScrolled={isScrolled}
               isActive={location.pathname === '/search'}
             />
-            <Button variant="ghost" className="flex items-center">
-              <LogIn className="h-4 w-4 mr-2" />
-              Login
-            </Button>
-            <Button className="ml-2">Sign Up</Button>
+            <NavLink 
+              to="/booking" 
+              label="Book Now" 
+              icon={<CreditCard className="h-4 w-4" />} 
+              isScrolled={isScrolled}
+              isActive={location.pathname === '/booking'}
+            />
+            <NavLink 
+              to="/subscription-plans" 
+              label="Plans" 
+              icon={<DollarSign className="h-4 w-4" />} 
+              isScrolled={isScrolled}
+              isActive={location.pathname === '/subscription-plans'}
+            />
+            
+            {isLoggedIn ? (
+              <Button 
+                variant="ghost" 
+                className="flex items-center"
+                onClick={handleLogout}
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" className="flex items-center">
+                    <LogIn className="h-4 w-4 mr-2" />
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="ml-2 bg-travel-teal hover:bg-travel-teal/90">Sign Up</Button>
+                </Link>
+              </>
+            )}
           </motion.nav>
 
           {/* Mobile Menu */}
@@ -93,8 +142,26 @@ const Navbar = () => {
                   <MobileNavLink to="/" label="Explore" icon={<Compass className="h-5 w-5 mr-2" />} />
                   <MobileNavLink to="/create-blog" label="Create Blog" />
                   <MobileNavLink to="/search" label="Search" icon={<Search className="h-5 w-5 mr-2" />} />
-                  <MobileNavLink to="/login" label="Login" icon={<LogIn className="h-5 w-5 mr-2" />} />
-                  <Button className="w-full">Sign Up</Button>
+                  <MobileNavLink to="/booking" label="Book Now" icon={<CreditCard className="h-5 w-5 mr-2" />} />
+                  <MobileNavLink to="/subscription-plans" label="Subscription Plans" icon={<DollarSign className="h-5 w-5 mr-2" />} />
+                  
+                  {isLoggedIn ? (
+                    <Button 
+                      variant="ghost" 
+                      className="flex items-center justify-start px-2 py-3 text-foreground hover:bg-muted rounded-md w-full"
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="h-5 w-5 mr-2" />
+                      Logout
+                    </Button>
+                  ) : (
+                    <>
+                      <MobileNavLink to="/login" label="Login" icon={<LogIn className="h-5 w-5 mr-2" />} />
+                      <Link to="/signup" className="w-full">
+                        <Button className="w-full bg-travel-teal hover:bg-travel-teal/90">Sign Up</Button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>
@@ -118,7 +185,7 @@ const NavLink: React.FC<NavLinkProps> = ({ to, label, icon, isScrolled, isActive
     to={to}
     className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
       isActive
-        ? "bg-primary/10 text-primary"
+        ? "bg-travel-teal/10 text-travel-teal"
         : isScrolled || to !== "/"
         ? "text-gray-700 hover:bg-gray-100"
         : "text-white hover:bg-white/20"
