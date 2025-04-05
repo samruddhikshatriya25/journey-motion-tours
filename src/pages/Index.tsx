@@ -4,13 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { pageTransition } from "@/utils/motion";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Destinations from "@/components/Destinations";
-import TourPackages from "@/components/TourPackages";
-import AiRecommendation from "@/components/AiRecommendation";
-import ContactForm from "@/components/ContactForm";
+import PopularDestinations from "@/components/PopularDestinations";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import SubscriptionPlans from "@/components/SubscriptionPlans";
 import Footer from "@/components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   // Smooth scroll to elements when clicking on nav links
   useEffect(() => {
     const handleHashLinkClick = (event: MouseEvent) => {
@@ -30,9 +32,32 @@ const Index = () => {
       }
     };
 
+    const handleSearch = (event: Event) => {
+      event.preventDefault();
+      const form = event.target as HTMLFormElement;
+      const searchInput = form.querySelector('input[name="destination"]') as HTMLInputElement;
+      
+      if (searchInput.value) {
+        navigate(`/destination/${searchInput.value.toLowerCase()}`);
+      }
+    };
+
     document.addEventListener('click', handleHashLinkClick);
-    return () => document.removeEventListener('click', handleHashLinkClick);
-  }, []);
+    
+    // Add event listener for search form
+    const searchForm = document.getElementById('search-form');
+    if (searchForm) {
+      searchForm.addEventListener('submit', handleSearch);
+    }
+    
+    return () => {
+      document.removeEventListener('click', handleHashLinkClick);
+      const searchForm = document.getElementById('search-form');
+      if (searchForm) {
+        searchForm.removeEventListener('submit', handleSearch);
+      }
+    };
+  }, [navigate]);
 
   return (
     <AnimatePresence mode="wait">
@@ -47,10 +72,9 @@ const Index = () => {
         <Navbar />
         <main>
           <Hero />
-          <Destinations />
-          <TourPackages />
-          <AiRecommendation />
-          <ContactForm />
+          <PopularDestinations />
+          <WhyChooseUs />
+          <SubscriptionPlans />
         </main>
         <Footer />
       </motion.div>
