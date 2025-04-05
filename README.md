@@ -1,73 +1,101 @@
-# Welcome to your Lovable project
 
-## Project info
+# Wonderlust Canvas - AI-Powered Travel Platform
 
-**URL**: https://lovable.dev/projects/6371ac3a-733f-4066-906e-1e54cc286c6f
+## Project Overview
 
-## How can I edit this code?
+Wonderlust Canvas is an AI-enhanced travel platform that helps users discover, plan, and book personalized travel experiences. The application combines modern web technologies with AI recommendation algorithms to deliver tailored travel suggestions based on user preferences.
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+### Frontend Framework
+- **React**: JavaScript library for building the user interface
+- **TypeScript**: Typed superset of JavaScript for improved developer experience and code safety
+- **React Router DOM**: For handling navigation and routing within the application
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6371ac3a-733f-4066-906e-1e54cc286c6f) and start prompting.
+### Styling and UI
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **Shadcn UI**: Component library built on Tailwind CSS for consistent UI elements
+- **Framer Motion**: Library for animations and transitions
+- **Lucide React**: Icon library with minimal, consistent designs
 
-Changes made via Lovable will be committed automatically to this repo.
+### State Management and Data Fetching
+- **React Hook Form**: For form validation and handling
+- **Tanstack React Query**: For data fetching, caching, and state management
+- **Zod**: For schema validation
 
-**Use your preferred IDE**
+### Notifications
+- **Sonner**: Toast notification system
+- **Radix UI Toast**: Accessible toast notification components
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Build Tools
+- **Vite**: Fast frontend build tool and development server
+- **SWC**: JavaScript/TypeScript compiler (used by Vite)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## AI Features
 
-Follow these steps:
+### AI Travel Recommendation Engine
+The platform includes an AI recommendation system that processes user preferences to suggest personalized travel destinations. Key features include:
 
+- **Natural Language Processing**: Interprets user travel preferences expressed in natural language
+- **Preference Analysis**: Identifies travel themes and categories from user input
+- **Contextual Recommendations**: Generates detailed, context-aware travel suggestions based on identified preferences
+- **Real-time Response**: Provides immediate feedback and recommendations
+
+### Implementation Details
+The AI recommendation engine uses a keyword-matching approach combined with a template-based response system. The current implementation is a frontend mock, but it's designed to be easily replaced with a more sophisticated model like Google's Gemini API.
+
+## Project Structure
+
+The project follows a component-based architecture with these key elements:
+
+- **Pages**: Top-level views for different sections of the application
+- **Components**: Reusable UI elements
+- **UI Components**: Design system elements from Shadcn UI
+- **Utils**: Helper functions and API service modules
+- **Hooks**: Custom React hooks
+
+## Getting Started
+
+### Prerequisites
+- Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+### Installation and Development
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Navigate to project directory
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
+# Install dependencies
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Deployment
+The project can be deployed via Lovable's built-in publishing feature. To deploy:
+1. Open [Lovable](https://lovable.dev/projects/6371ac3a-733f-4066-906e-1e54cc286c6f)
+2. Click on Share -> Publish
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Custom Domain Setup
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/6371ac3a-733f-4066-906e-1e54cc286c6f) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+To connect a custom domain to your project:
+1. Navigate to Project > Settings > Domains in Lovable
+2. Click Connect Domain
+3. Follow the setup instructions
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+
+## Future Enhancements
+
+Planned improvements for the AI recommendation system:
+- Integration with production-ready AI services (Google Gemini, OpenAI)
+- Enhanced personalization based on user history and preferences
+- Multi-factor recommendation system incorporating seasonality, budget constraints, and travel restrictions
+- Expanded language support for international users
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
